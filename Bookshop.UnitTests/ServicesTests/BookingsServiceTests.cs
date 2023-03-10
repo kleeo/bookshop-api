@@ -94,5 +94,11 @@ namespace Bookshop.UnitTests.ServicesTests
             var actualBooking = await _sut.GetBookingAsync(expectedBooking.Id);
             Assert.That(actualBooking, Is.EqualTo(null));
         }
-    }
+
+		[Test]
+        public async Task FailingTest()
+        {
+            Assert.Fail("Bad luck, sorry 123eee123");
+        }
+	}
 }
