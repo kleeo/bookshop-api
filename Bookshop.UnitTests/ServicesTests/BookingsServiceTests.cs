@@ -98,7 +98,7 @@ namespace Bookshop.UnitTests.ServicesTests
 		[Test]
         public async Task FailingTest()
         {
-            Assert.Fail("Bad luck, sorry 123123");
+            Assert.Fail("Bad luck, sorry 123eee123");
         }
 	}
 }
