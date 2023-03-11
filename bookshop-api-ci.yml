@@ -8,7 +8,7 @@ trigger:
 pool:
   vmImage: windows-latest
 
-# resources:
+resources:
 #   repositories:
 #   - repository: bookshop
 #     type: github
