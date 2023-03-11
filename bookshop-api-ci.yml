@@ -1,0 +1,80 @@
+
+trigger:
+  branches:
+    include:
+      - main
+      - feature/*
+
+pool:
+  vmImage: windows-latest
+
+resources:
+  repositories:
+  - repository: bookshop
+    type: github
+    endpoint: 'dk-github'
+    name: 'kleeo/bookshop-api'
+    ref: feature/change-readme
+    trigger:
+      branches:
+        include:
+        - main
+        - feature/*
+
+  webhooks:
+    - webhook: GithubWebhook          
+      connection: github-webhook-connection    
+
+variables:
+  solution: '**/*.sln'
+  buildPlatform: 'Any CPU'
+  buildConfiguration: 'Release'
+
+steps:
+
+   # get branch name from github webhook
+
+  - checkout: self
+    name: CheckoutRepo
+
+  - task: NuGetToolInstaller@1
+    name: InstallNuget
+
+  - task: NuGetCommand@2
+    name: RestorePackages
+    inputs:
+      restoreSolution: '$(solution)'
+
+  - task: SonarCloudPrepare@1
+    inputs:
+      SonarCloud: 'sonarcloud'
+      organization: 'dktestorg'
+      scannerMode: 'MSBuild'
+      projectKey: 'dktestorg_test'
+
+  # - task: MSBuild@1
+  #   name: Build
+  #   inputs:
+  #     solution: '$(solution)'
+  #     msbuildArguments: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:DesktopBuildPackageLocation="$(build.artifactStagingDirectory)\WebApp.zip" /p:DeployIisAppPath="Default Web Site"'
+  #     platform: '$(buildPlatform)'
+  #     configuration: '$(buildConfiguration)'
+
+  - task: DotNetCoreCLI@2
+    name: Build
+    inputs:
+      command: 'build'
+      projects: '$(solution)'
+      
+  - task: DotNetCoreCLI@2
+    name: UnitTests
+    inputs:
+      command: 'test'
+      projects: 'Bookshop.UnitTests/Bookshop.UnitTests.csproj'
+      arguments: '--collect "Code Coverage"'
+      
+  - task: SonarCloudAnalyze@1
+
+  - task: SonarCloudPublish@1
+    inputs:
+      pollingTimeoutSec: '300'
