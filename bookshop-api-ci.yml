@@ -9,21 +9,9 @@ pool:
   vmImage: windows-latest
 
 resources:
-#   repositories:
-#   - repository: bookshop
-#     type: github
-#     endpoint: 'dk-github'
-#     name: 'kleeo/bookshop-api'
-#     ref: feature/change-readme
-#     trigger:
-#       branches:
-#         include:
-#         - main
-#         - feature/*
-
   webhooks:
-    - webhook: GithubWebhook          
-      connection: github-webhook-connection    
+    - webhook: GithubWebhook
+      connection: github-webhook-connection
 
 variables:
   solution: '**/*.sln'
@@ -31,8 +19,6 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
-
-   # get branch name from github webhook
 
   - checkout: self
     name: CheckoutRepo
