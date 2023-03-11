@@ -8,18 +8,18 @@ trigger:
 pool:
   vmImage: windows-latest
 
-resources:
-  repositories:
-  - repository: bookshop
-    type: github
-    endpoint: 'dk-github'
-    name: 'kleeo/bookshop-api'
-    ref: feature/change-readme
-    trigger:
-      branches:
-        include:
-        - main
-        - feature/*
+# resources:
+#   repositories:
+#   - repository: bookshop
+#     type: github
+#     endpoint: 'dk-github'
+#     name: 'kleeo/bookshop-api'
+#     ref: feature/change-readme
+#     trigger:
+#       branches:
+#         include:
+#         - main
+#         - feature/*
 
   webhooks:
     - webhook: GithubWebhook          
