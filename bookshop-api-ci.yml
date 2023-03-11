@@ -52,14 +52,6 @@ steps:
       scannerMode: 'MSBuild'
       projectKey: 'dktestorg_test'
 
-  # - task: MSBuild@1
-  #   name: Build
-  #   inputs:
-  #     solution: '$(solution)'
-  #     msbuildArguments: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:DesktopBuildPackageLocation="$(build.artifactStagingDirectory)\WebApp.zip" /p:DeployIisAppPath="Default Web Site"'
-  #     platform: '$(buildPlatform)'
-  #     configuration: '$(buildConfiguration)'
-
   - task: DotNetCoreCLI@2
     name: Build
     inputs:
